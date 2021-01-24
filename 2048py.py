@@ -91,3 +91,11 @@ class Igrac(object):
 
     def __str__(self):
         return "Igrač" + self.__ime
+
+class PrikazIgre(object):
+    def prikaziPocetakIgre(self):
+        print('-' * 20 + "2048" + '-' * 20)
+
+    def odabirIgre(self):
+        igra = input("Ako želite nastaviti prethodnu igr unesite da: ")
+        
