@@ -96,6 +96,51 @@ class PrikazIgre(object):
     def prikaziPocetakIgre(self):
         print('-' * 20 + "2048" + '-' * 20)
 
-    def odabirIgre(self):
-        igra = input("Ako želite nastaviti prethodnu igr unesite da: ")
-        
+    def unesiIgraca(self):
+        while True:
+            ime = input("Unesi ime: ")
+            if ime.strip():
+                print("*"*50)
+                return ime.strip()
+class Igra(object):
+    def __init__(self,prikaz=None):
+        self.__prikaz=prikaz
+        self.__ploca=Ploca()
+        self.__igrac=[]
+
+    @property
+    def prikaz(self):return self.__prikaz
+
+    @property
+    def ploca(self):return self.__ploca
+    
+    @property
+    def igrac(self):return self.__igrac[0]
+
+    def igranje2048(self):
+        #0
+        self.prikaz.pokaziPocetakIgre() #0
+        self.OdabirIgra()               #1
+        self.ponistavanjePoteza()
+        self.GeneriranjeKvadrata()
+        self.spajanjeKvadrata()
+
+        self.bodovanje()
+
+
+def main():
+    prikaz=prikazIgre()
+    igra=igra(prikaz)
+    igra.igranje2048()
+
+main()
+
+
+
+
+
+
+                                        
+
+
+    
