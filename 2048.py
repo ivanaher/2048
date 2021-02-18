@@ -482,7 +482,11 @@ class Igra(object):
         #ispis dobivene matrice
         print(m.__matrica)
 
-
+def main():
+    
+    prikaz = PrikazIgre()
+    igra =Igra(prikaz)
+    
 
 
         
