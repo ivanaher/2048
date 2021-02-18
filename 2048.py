@@ -54,6 +54,9 @@ class Matrica(object):
 
     '''
     def __init__(self):
+        
+        #bodove na pocetku igre postaviti na nulu
+        self.__bodovi=0
 
         #formiranje matrice 4x4
         self.__matrica=[[0 for i in range(4)]for j in range(4)]
@@ -75,7 +78,7 @@ class Matrica(object):
 
             #dodamo kvadratic u matricu
             self.__matrica[r][c] = random.choice(lista)
-
+    
 
     def dodaj_kvadratic(self):
 
@@ -215,12 +218,13 @@ class Matrica(object):
                     # a vrijednost drugog kvadratica ce biti 0
                     self.__matrica[i][j] = self.__matrica[i][j] * 2
                     self.__matrica[i][j + 1] = 0
+                    self.__bodovi+=self.__matrica[i][j]
 
                     #nakon spajanja postaviti promjenu na True
                     promjena = True
 
         #vratiti matricu i bool varijablu promjene
-        return self.__matrica, promjena
+        return self.__matrica, promjena,self.__bodovi
 
     def obrnuta(self):
 
@@ -263,7 +267,7 @@ class Matrica(object):
         novi_grid, promjena1 = self.komprimiraj()
 
         #zatim spojiti kvadratice
-        novi_grid, promjena2 = self.spojene()
+        novi_grid, promjena2,self.__bodovi = self.spojene()
 
         promjena = promjena1 or promjena2
 
@@ -273,7 +277,7 @@ class Matrica(object):
         self.__matrica = novi_grid
 
         #vratiti novu matricu i bool vrijednost promjene
-        return self.__matrica, promjena
+        return self.__matrica, promjena,self.__bodovi
 
     def pomakni_desno(self):
 
@@ -284,11 +288,11 @@ class Matrica(object):
         #prvo matricu treba obrnuti
         novi_grid = self.obrnuta()
 
-        novi_grid, promjena = self.pomakni_lijevo()
+        novi_grid, promjena,self.__bodovi = self.pomakni_lijevo()
 
         novi_grid = self.obrnuta()
         self.__matrica = novi_grid
-        return self.__matrica, promjena
+        return self.__matrica, promjena,self.__bodovi
 
     def pomakni_gore(self):
 
@@ -299,13 +303,13 @@ class Matrica(object):
         novi_grid = self.transponirana()
 
         #pomaknuti u lijevo
-        novi_grid, promjena = self.pomakni_lijevo()
+        novi_grid, promjena,self.__bodovi = self.pomakni_lijevo()
 
         #ponovno transponirati
         novi_grid = self.transponirana()
 
         self.__matrica = novi_grid
-        return self.__matrica, promjena
+        return self.__matrica, promjena,self.__bodovi
 
     def pomakni_dolje(self):
 
@@ -316,15 +320,15 @@ class Matrica(object):
         novi_grid = self.transponirana()
 
         #pamaknuti je udesno
-        novi_grid, promjena = self.pomakni_desno()
+        novi_grid, promjena,self.__bodovi = self.pomakni_desno()
 
         #ponovno transponirati
         novi_grid = self.transponirana()
 
         self.__matrica = novi_grid
-        return self.__matrica, promjena
+        return self.__matrica, promjena,self.__bodovi
 
-
+    
 class Igrac(object):
 
     '''
@@ -399,7 +403,7 @@ class Igra(object):
         #matrica pomjeriti gore
         if(x == 'W' or x == 'w'):
 
-            m.__matrica, flag = m.pomakni_gore()
+            m.__matrica, flag ,bodovi= m.pomakni_gore()
 
             #trazi se trenutno stanje u matrici
             status = m.trenutno_stanje()
@@ -418,7 +422,7 @@ class Igra(object):
         #matrica pomjeriti dolje
         elif(x == 'S' or x == 's'):
 
-            m.__matrica, flag = m.pomakni_dolje()
+            m.__matrica, flag,bodovi = m.pomakni_dolje()
 
             #trazi se trenutno stanje u matrici
             status = m.trenutno_stanje()
@@ -436,7 +440,7 @@ class Igra(object):
         # pomakni matricu ulijevo
         elif(x == 'A' or x == 'a'):
 
-            m.__matrica, flag = m.pomakni_lijevo()
+            m.__matrica, flag ,bodovi= m.pomakni_lijevo()
 
             #trazi se trenutno stanje u matrici
             status = m.trenutno_stanje()
@@ -454,7 +458,7 @@ class Igra(object):
         #pomakni matricu u desno
         elif(x == 'D' or x == 'd'):
 
-            m.__matrica, flag = m.pomakni_desno()
+            m.__matrica, flag ,bodovi= m.pomakni_desno()
 
             #trazi se trenutno stanje u matrici
             status = m.trenutno_stanje()
@@ -473,6 +477,8 @@ class Igra(object):
         else:
             print("Netočan unos!")
 
+        #ispis bodova
+        print("Bodovi: ",bodovi)
         #ispis dobivene matrice
         print(m.__matrica)
 
