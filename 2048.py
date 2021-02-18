@@ -486,6 +486,9 @@ def main():
     
     prikaz = PrikazIgre()
     igra =Igra(prikaz)
+    igra.PrikazIgre()
+
+main()
     
 
 
